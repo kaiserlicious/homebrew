@@ -23,8 +23,8 @@ def disable_openmp?
   ARGV.include? '--disable-openmp'
 end
 
-def with_plusplus?
-  ARGV.include? '--with-magick++'
+def magick_plus_plus?
+    ARGV.include? '--with-magick-plus-plus'
 end
 
 def x11?
@@ -62,7 +62,7 @@ class Imagemagick <Formula
       ['--with-ghostscript', 'Compile against ghostscript (not recommended.)'],
       ['--use-wmf', 'Compile with libwmf support.'],
       ['--disable-openmp', 'Disable OpenMP.'],
-      ['--with-magick++','Compile with C++ API']
+      ['--with-magick-plus-plus', 'Compile with C++ interface.']
     ]
   end
 
@@ -76,14 +76,13 @@ class Imagemagick <Formula
              "--disable-dependency-tracking",
              "--enable-shared",
              "--disable-static",
-             "--with-modules"
-            ]
+             "--with-modules"]
 
     args << "--disable-openmp" if MACOS_VERSION < 10.6 or disable_openmp?
     args << "--without-gslib" unless ghostscript_srsly?
     args << "--with-gs-font-dir=#{HOMEBREW_PREFIX}/share/ghostscript/fonts" \
                 unless ghostscript_srsly? or ghostscript_fonts?
-    args << "--without-magick-plus-plus" unless with_plusplus?
+    args << "--without-magic-plus-plus" unless magick_plus_plus?
 
     # versioned stuff in main tree is pointless for us
     inreplace 'configure', '${PACKAGE_NAME}-${PACKAGE_VERSION}', '${PACKAGE_NAME}'
